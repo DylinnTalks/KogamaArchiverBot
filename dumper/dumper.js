@@ -13,11 +13,10 @@ class Dumper {
 			let gameData = GameQueue.get();
 
 			if (gameData) {
-				let promise = this.dumpGame(gameData).catch(console.error);
-
-				// TODO: Add multi threading support
+				await this.dumpGame(gameData);
+				await new Promise(resolve => setTimeout(resolve, 100));
 			} else {
-				await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second before checking the queue again
+				await new Promise(resolve => setTimeout(resolve, 1000));
 			}
 		}
 	}
