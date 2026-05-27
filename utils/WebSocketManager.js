@@ -265,7 +265,7 @@ class EventManager {
             //console.log("WorldObjects", this.GameWorldManager.world.WorldObjects.length);
             //console.log("Prototypes", this.GameWorldManager.world.Prototypes.length);
 
-            delete this.GameSnapShotInstances.InitWorld;
+            //delete this.GameSnapShotInstances.InitWorld;
         }
     }
     PendingByteDataBatch(socket) {
