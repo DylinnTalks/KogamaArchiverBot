@@ -17,6 +17,16 @@ class Dumper {
 					await this.dumpGame(gameData);
 				} catch (error) {
 					console.error("Failed to dump game:", error);
+
+					let retries = gameData.retries || 0;
+					if (retries < 3) {
+						console.log(`Retrying game ${gameData.id} in 30 seconds (attempt ${retries + 1}/3)`);
+						gameData.retries = retries + 1;
+						GameQueue.add(gameData);
+						await new Promise(resolve => setTimeout(resolve, 30000));
+					} else {
+						console.error(`Game ${gameData.id} failed after 3 retries, skipping.`);
+					}
 				}
 				await new Promise(resolve => setTimeout(resolve, 100));
 			} else {
