@@ -265,7 +265,7 @@ class EventManager {
             //console.log("WorldObjects", this.GameWorldManager.world.WorldObjects.length);
             //console.log("Prototypes", this.GameWorldManager.world.Prototypes.length);
 
-            //delete this.GameSnapShotInstances.InitWorld;
+            delete this.GameSnapShotInstances.InitWorld;
         }
     }
     PendingByteDataBatch(socket) {
@@ -311,10 +311,8 @@ class WebSocketManager {
             });
         });
         this.ws.on('close', (code, reason) => {
-            //console.log(`Connection closed: Code=${code}, Reason=${reason}`);
+            delete GameWorldManager.WorldInstances[this.instance];
             this.onDisconnected(code, reason);
-            //console.log(`Reconnecting...`);
-            //this.Connect();
         });
         this.ws.on('error', (error) => {
             console.error('WebSocket error:', error);

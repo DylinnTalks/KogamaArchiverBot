@@ -42,6 +42,7 @@ class Bot {
 
 			webSocketManager.onConnected = () => {
 				let planetData = Buffer.from(webSocketManager.EventManager.GameSnapShotInstances.InitWorld);
+				webSocketManager.ws?.close();
 				resolve(planetData);
 			}
 		});
