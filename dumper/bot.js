@@ -16,7 +16,8 @@ class Bot {
 	}
 
 	async getSessionLocator() {
-		let sessionLocatorResponse = await fetch(`https://www.kogama.com/locator/session/?objectID=${this.gameData.id}&profileID=0&lang=en_US&type=play&referrer=kogama`);
+		let domain = this.gameData.domain || "www.kogama.com";
+		let sessionLocatorResponse = await fetch(`https://${domain}/locator/session/?objectID=${this.gameData.id}&profileID=0&lang=en_US&type=play&referrer=kogama`);
 		
 		if (!sessionLocatorResponse.ok) {
 			throw new Error(`Failed to get session locator for game ${this.gameData.id}`);

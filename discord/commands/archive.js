@@ -20,17 +20,19 @@ class Command {
 
 		let isKogamaUrl = false;
 		let gameId;
+		let domain;
 
 		try {
 			let parsedUrl = new URL(url);
 
-			if (parsedUrl.hostname === 'www.kogama.com' || parsedUrl.hostname === 'kogama.com') {
+			if (['www.kogama.com', 'kogama.com', 'friends.kogama.com', 'kogama.com.br'].includes(parsedUrl.hostname)) {
 				let pathParts = parsedUrl.pathname.split('/').filter(part => part.length > 0);
 
 				if (pathParts.length >= 3 && pathParts[0] === 'games' && pathParts[1] === 'play') {
 					if (Number.isInteger(parseInt(pathParts[2]))) {
 						isKogamaUrl = true;
 						gameId = parseInt(pathParts[2]);
+						domain = parsedUrl.hostname;
 					}
 				}
 			}
@@ -46,7 +48,7 @@ class Command {
 		let gameData;
 
 		try {
-			let gameMembersResponse = await fetch(`https://www.kogama.com/game/${gameId}/member/?count=1`); // Only endpoint i found to get the game data lol
+			let gameMembersResponse = await fetch(`https://${domain}/game/${gameId}/member/?count=1`);
 
 			if (gameMembersResponse.ok) {
 				gameData = (await gameMembersResponse.json()).data[0];
@@ -70,6 +72,7 @@ class Command {
 			name: gameData.name,
 			owner: gameData.member_username,
 			requestedBy: interaction.user.id,
+			domain: domain,
 		})
 	}
 }
