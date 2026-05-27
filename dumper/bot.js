@@ -36,9 +36,12 @@ class Bot {
 		webSocketManager.Connect();
 
 		return new Promise((resolve, reject) => {
+			webSocketManager.onDisconnected = (code, reason) => {
+				reject(new Error(`WebSocket disconnected: Code=${code}, Reason=${reason}`));
+			};
+
 			webSocketManager.onConnected = () => {
 				let planetData = Buffer.from(webSocketManager.EventManager.GameSnapShotInstances.InitWorld);
-				
 				resolve(planetData);
 			}
 		});

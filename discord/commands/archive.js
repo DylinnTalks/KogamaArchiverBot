@@ -16,6 +16,8 @@ class Command {
 	
 	/** @param {DiscordJS.Interaction} interaction  */
 	static async execute(interaction) {
+		await interaction.deferReply({ flags: DiscordJS.MessageFlags.Ephemeral });
+
 		let url = interaction.options.getString('url');
 
 		let isKogamaUrl = false;
@@ -41,7 +43,7 @@ class Command {
 		}
 
 		if (!isKogamaUrl) {
-			return await interaction.reply({ content: '❌ | Please provide a valid KoGaMa game URL.', flags: DiscordJS.MessageFlags.Ephemeral });
+			return await interaction.editReply({ content: '❌ | Please provide a valid KoGaMa game URL.' });
 		}
 
 		let isValidGame = false;
@@ -62,10 +64,10 @@ class Command {
 		}
 
 		if (!isValidGame) {
-			return await interaction.reply({ content: '❌ | The provided URL does not correspond to a valid KoGaMa game.', flags: DiscordJS.MessageFlags.Ephemeral });
+			return await interaction.editReply({ content: '❌ | The provided URL does not correspond to a valid KoGaMa game.' });
 		}
 
-		await interaction.reply({ content: `✅ | Added \`${gameData.name}\` (ID: \`${gameId}\`) by \`${gameData.member_username}\` to the queue!`, flags: DiscordJS.MessageFlags.Ephemeral });
+		await interaction.editReply({ content: `✅ | Added \`${gameData.name}\` (ID: \`${gameId}\`) by \`${gameData.member_username}\` to the queue!` });
 
 		GameQueue.add({
 			id: gameId,
