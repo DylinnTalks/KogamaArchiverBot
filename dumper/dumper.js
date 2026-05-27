@@ -13,7 +13,11 @@ class Dumper {
 			let gameData = GameQueue.get();
 
 			if (gameData) {
-				await this.dumpGame(gameData);
+				try {
+					await this.dumpGame(gameData);
+				} catch (error) {
+					console.error("Failed to dump game:", error);
+				}
 				await new Promise(resolve => setTimeout(resolve, 100));
 			} else {
 				await new Promise(resolve => setTimeout(resolve, 1000));
