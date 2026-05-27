@@ -58,12 +58,14 @@ class Discord {
 				await command.execute(interaction);
 			} catch (error) {
 				console.error(`Error executing command ${interaction.commandName}:`, error);
-				
-				if (interaction.replied || interaction.deferred) {
-					await interaction.followUp({ content: '❌ | There was an error while executing this command!', flags: DiscordJS.MessageFlags.Ephemeral });
-				} else {
-					await interaction.reply({ content: '❌ | There was an error while executing this command!', flags: DiscordJS.MessageFlags.Ephemeral });
-				}
+
+				try {
+					if (interaction.replied || interaction.deferred) {
+						await interaction.followUp({ content: '❌ | There was an error while executing this command!', flags: DiscordJS.MessageFlags.Ephemeral });
+					} else {
+						await interaction.reply({ content: '❌ | There was an error while executing this command!', flags: DiscordJS.MessageFlags.Ephemeral });
+					}
+				} catch {}
 			}
 		});
 	}
